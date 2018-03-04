@@ -22,7 +22,7 @@ var Subject = function() {
 
  var Observer = function(name) {
      this.update = function(msg) {
-        console.log("this is " + name + 'message' + msg)
+        console.log("this is " + name + ' message ' + msg)
      }
  }
 
@@ -34,23 +34,31 @@ var Subject = function() {
  sub.attach(A)
  sub.attach(B)
  console.log(sub.getAllObserver())
- sub.detach()
+//  sub.detach()
  console.log(sub.getAllObserver())
+ sub.notify('kjj')
+
+setTimeout(function() {
+    var C = new Observer("c")
+    sub.detach()
+    sub.attach(C)
+    sub.notify('zxx')
+},1000)
 
  //es6
 
- class Event {
-     constructor() {
-        this.subscribes = new Map([['any',[]]])
-     }
-     on(fn,type='any') {
-         let subs = this.subscribes
-         if(!subs.get(type)) return subs.set(type,[fn])
-         return subs.set(type,(subs.get(type).push(fn)))
-     }
-     emit(content,type='any') {
-         for(let fn of this.subscribes.get(type)) {
-             fn(content)
-         }
-     }
- }
+//  class Event {
+//      constructor() {
+//         this.subscribes = new Map([['any',[]]])
+//      }
+//      on(fn,type='any') {
+//          let subs = this.subscribes
+//          if(!subs.get(type)) return subs.set(type,[fn])
+//          return subs.set(type,(subs.get(type).push(fn)))
+//      }
+//      emit(content,type='any') {
+//          for(let fn of this.subscribes.get(type)) {
+//              fn(content)
+//          }
+//      }
+//  }
