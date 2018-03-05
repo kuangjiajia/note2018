@@ -89,3 +89,5 @@ Promise.prototype = {
         }
 }
 }
+
+//待完成
