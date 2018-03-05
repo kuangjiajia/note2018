@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="title"></div>
+    <div id="content"></div>
+</body>
+</html>
+
+<script>
+    //缺点 appState是全局变量
+    var appState = {
+        title: {
+            text: "react-redux title",
+            color: "red" 
+        },
+        content: {
+            text: "react-redux content",
+            color: "blue"
+        }
+    }
+
+    var renderApp = function(state) {
+        renderAppTitle(state.title)
+        renderAppContent(state.content)
+        console.log(123)
+    }
+
+    var renderAppTitle = function(title) {
+        var titleDOM = document.querySelector("#title")
+        console.log(titleDOM)
+        titleDOM.innerText = title.text
+        titleDOM.style.color = title.color
+    }
+    var renderAppContent = function(content) {
+        var contentDOM = document.querySelector("#content")
+        contentDOM.innerText = content.text
+        contentDOM.style.color = content.color
+    }
+
+    renderApp(appState)
+
+//为了避免任意修改全局变量
+
+    var dispatch = (action) => {
+        switch(action.type) {
+            case "UPDATE_TITLE":{
+                appState.title.text = action.text
+                break
+            }
+            case "UPDATE_CONTENT": {
+                appState.content.text = action.text
+                break
+            }
+            default: 
+                return appState
+        }
+    }
+
+    console.log(appState)
+
+    dispatch({
+        type: "UPDATE_TITLE",
+        text: "I update appState"
+    })
+
+    console.log(appState)
+
+</script>
