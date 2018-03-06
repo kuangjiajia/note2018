@@ -12,26 +12,25 @@
 </body>
 </html>
 <script>
+    //本实验目的 解决不必要的content渲染
+    // 显而易见 这样做不可以 
 
-    var renderApp = function(state) {
-        renderAppTitle(state.title)
-        renderAppContent(state.content)
-        console.log(123)
-    }
 
-    var renderAppTitle = function(title) {
+
+    function renderAppTitle(title) {
+        console.log("render title...")
         var titleDOM = document.querySelector("#title")
-        console.log(titleDOM)
         titleDOM.innerText = title.text
         titleDOM.style.color = title.color
     }
-    var renderAppContent = function(content) {
+    function renderAppContent(content) {
+        console.log("render content...")
         var contentDOM = document.querySelector("#content")
         contentDOM.innerText = content.text
         contentDOM.style.color = content.color
     }
 
-    var stateChange = (state,action) => {
+    function stateChange(state,action){
         switch(action.type) {
             case "UPDATE_TITLE":{
                 appState.title.text = action.text
@@ -45,11 +44,6 @@
                 return appState
         }
     }
-    function createStore(state,stateChange) {
-        const getState = () => state
-        const dispatch = (action) => stateChange(state,action)
-        return {getState,dispatch} 
-    }
 
     let appState = {
         title: {
@@ -62,14 +56,43 @@
         }
     }
 
+    let oldState = null
+    function renderApp(newState,oldState = {}) {
+        console.log("render app...")
+        if(!oldState) {
+            renderAppTitle(newState.title)        
+            renderAppContent(newState.content)
+        }else{
+            newState.title !== oldState.title ? renderAppTitle(newState.title) : null
+            newState.content !== oldState.content ? renderAppContent(newState.content) : null
+        }
+    }
+    
+    function createStore(state,stateChange) {
+        const listeners = []
+        const getState = () => state
+        const subscribe = (listener) => listeners.push(listener)
+        const dispatch = (action) => {
+            oldState = state
+            stateChange(state,action)
+            console.log(oldState)
+            listeners.forEach((listener) => listener())
+        }
+        return {getState,dispatch,subscribe} 
+    }
+
     const store = createStore(appState,stateChange) //appState => 需要管理的数据 stateChange => 改变数据的方法    
     
     console.log(store.getState())
+    store.subscribe(() => {console.log(123)})
+    store.subscribe(() => {renderApp(store.getState(),oldState)})
+    renderApp(store.getState()) // 首次渲染页面
     store.dispatch({
         type: "UPDATE_TITLE",
-        text: "I UPDATE TITLE"
+        text: "I UPDATE THE TITLE"
     })
-    renderApp(appState)
+
+    
 
     console.log(store.getState())
     

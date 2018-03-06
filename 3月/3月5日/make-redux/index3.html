@@ -13,6 +13,7 @@
 </html>
 <script>
 
+
     var renderApp = function(state) {
         renderAppTitle(state.title)
         renderAppContent(state.content)
@@ -46,9 +47,14 @@
         }
     }
     function createStore(state,stateChange) {
+        const listeners = []
         const getState = () => state
-        const dispatch = (action) => stateChange(state,action)
-        return {getState,dispatch} 
+        const subscribe = (listener) => listeners.push(listener)
+        const dispatch = (action) => {
+            stateChange(state,action)
+            listeners.forEach((listener) => listener())
+        }
+        return {getState,dispatch,subscribe} 
     }
 
     let appState = {
@@ -65,11 +71,14 @@
     const store = createStore(appState,stateChange) //appState => 需要管理的数据 stateChange => 改变数据的方法    
     
     console.log(store.getState())
+    store.subscribe(() => {console.log(123)})
+    store.subscribe(() => {renderApp(store.getState())})
     store.dispatch({
         type: "UPDATE_TITLE",
         text: "I UPDATE TITLE"
     })
-    renderApp(appState)
+
+    
 
     console.log(store.getState())
     
