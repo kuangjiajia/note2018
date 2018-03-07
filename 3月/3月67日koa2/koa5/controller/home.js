@@ -1,6 +1,9 @@
 module.exports = {
     index: async (ctx,next) => {
-        ctx.response.body = 'this is index'
+        // ctx.response.body = 'this is index'
+        ctx.state = {
+            title: "kjj"
+        }
     },
     home: async(ctx,next) => {
         ctx.response.body = `${JSON.stringify(ctx.request.query)}`
