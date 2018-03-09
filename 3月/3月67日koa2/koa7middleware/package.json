@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "koa-static": "^4.0.2",
+    "koa-views": "^6.1.4",
+    "log4js": "^2.5.3"
+  }
+}
