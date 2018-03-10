@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <img src="" alt="" class="img">
+</head>
+<body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="http://mockjs.com/dist/mock.js"></script>    <!-- <script src="./mock.js"></script> -->
+    <script>
+    const img = document.querySelector(".img")
+    // Mock.mock("./user",(options) => {
+    //     console.log(options) 
+    // })
+    // url,type,body三个参数
+    // url => 拦截的地址 type => 拦截的方法(get,post) body => 只有post才有
+    // Mock.mock("./user?user=kjj", {
+    //     "name": "kjj"
+    // })
+
+    //上面方法不管是post还是get都可以拦截
+
+    // Mock.mock("./user","post",(options) => {
+    //     return options
+    // })
+    //三个参数 url type template/fn 
+    // type => 必须与请求的方法相同
+
+    // Mock.setup(settings) settings => 参数只有timeout 必须要有超时
+    // Mock.Random 生成随机数据
+    // Mock.Random.emai() 和 Mock.mock("@email")差不多一个效果 
+    const Random = Mock.Random
+    console.log(Mock.mock("@email"))
+    console.log(Random.email())
+
+    //Random类型
+    Random.boolean() 
+    // Random.boolean(min,max,current)
+    // min => 出现current参数的几率 max => 出现 !current参数的几率
+    // console.log(Random.boolean(1,9,true))
+
+    // Random.natural() => 返回一个随机的自然数
+    // Random.natural(min,max) min随机自然数的最小值 max 随机自然数的最小值
+    // Random.integer() // 返回随机整数
+    // Ranfom.integer(min,max) min 返回随机整数的最小值  
+    // Random.float()
+    // Random.float(min,max)
+    // Random.float(min,max,dmin) //dmin 小数位数最小值 min 整数部分最小值
+    // Random.float(min,max,dmin, dmax) //dmax 小数位数最大值 max 整数部分最大值
+    
+    // Random.string() 返回随机字符串
+    // Random.string()
+    // Random.string( length )
+    // Random.string( pool, length ) pool 是一个字符串池 
+    // pool的四个参数lower upper number symbol 大小写数字符号
+    // Random.string( min, max )
+    // Random.string( pool, min, max )
+
+    // Random.character()
+    // Random.character(string) string => 返回字符串中的一个字符
+
+
+    // Random.range(start,end,step) 
+    // start => 开始的整数 
+    // end => 结束的整数
+    // step => 整数之间的间隔
+    // console.log(Random.range(10))
+
+    // Random.image(size,background,foreground,text)
+    // Random.image(size,background,foreground,format,text) //format => 图片格式
+    // Random.dataImage(size,text) => 生成一段随机的base64图片编码
+    // Random.color()
+    // Random.rgb()
+    // Random.rgba()
+    // Random.paragraph()
+    // Random.paragraph(min)
+    // Random.paragraph(max)
+    // 随机生成一段文本 min 句子的最小个数，max句子的最大个数(英文)
+    // console.log(Random.paragraph(3))
+    // Random.cparagraph()
+    // Random.cparagraph(min)
+    // Random.cparagraph(max)
+    // 随机生成一段文本 min 句子的最小个数，max句子的最大个数(中文)
+    
+    // console.log(Random.cparagraph())
+    // console.log(Random.cparagraph(1))
+    // console.log(Random.cparagraph(3,54))
+
+    // Random.sentence()
+    // Random.sentence(len)
+    // Random.sentence(min,max)
+    // 随机生成一个句子，len => 单词的个数 min => 单词的最小个数 max => 单词的最大个数
+    // console.log(Random.sentence(1))
+
+    // Random.csentence()
+    // Random.csentence(len)
+    // Random.csentence(min,max)
+
+    // console.log(Random.csentence(10))
+
+    // Random.word(len) len => 字符个数为len
+    // Random.word(min,max) => 字符最短值是min，最大值是max
+    // Random.cword(len) len => 字符个数为len
+    // Random.cword(min,max) => 字符最短值是min，最大值是max
+
+    // Random.word 和 Random.sentence 很类似 但是一个是单词 一个是句子 多一个句号
+
+    // Random.title()
+    // Random.ctitle()
+    // 随机生成标题
+
+
+    console.log(Random.word(10))
+    console.log(Random.cword(10))
+
+    // console.log(Random.date())
+    // console.log(Random.date('yy-mm-dd'))
+    const imgUrl = Random.image('500x500')
+    console.log(img)
+    console.log(imgUrl)
+    const demoUrl = Random.image('200x200','#000fff','#ffff00','png','sadsadsadasd')
+    img.src = demoUrl
+
+    const pool = {
+        "llp": "mdzz",
+        "zzx": "hmp",
+        "kjj": "handsome",
+        "yrx": "sleepy"
+    }
+
+    Mock.mock("./user",{
+        "name": Random.string(),
+        "age": Random.float(10,20,10,20),
+        "character": Random.character( 'lower/upper/number/symbol'),
+        "pool": Random.string('lower',20)
+    })
+
+    const json = Mock.toJSONSchema({
+        'key|1-10': '*'
+    })
+
+    console.log(json)
+
+
+// var template = {
+//     name: 'value1'
+// }
+// var data = {
+//     name: 'value2'
+// }
+
+// console.log(Mock.valid(template, data))
+
+
+
+    axios.post("./user",{
+        "name": "kjj"
+    }) 
+    .then(res => {
+        console.log(res.data)
+    })
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
