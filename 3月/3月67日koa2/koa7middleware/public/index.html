@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+const $ = {
+	ajax: (json) => {
+		return new Promise((resolve,reject) => {
+			const { method, url, data , async = "true"} = json
+			const xhr = new XMLHttpRequest()
+			xhr.onreadystatechange = () => {
+				if(xhr.readyState === 4) {
+					if(xhr.status === 200) {
+                        console.log(xhr.responseText)
+						resolve(xhr.responseText)
+					}
+				}else{
+                    console.log(xhr.readyState)
+					reject(xhr.status)
+				}
+			}
+			if(method.toUpperCase() === "GET") {
+				xhr.open(method,`${url}${$.params(data)}`,async)
+				xhr.send()
+			}else if(method.toUpperCase() === "POST"){
+				xhr.open(method,url,async)
+				xhr.send(data)
+			}
+		}) 
+	},
+	params: (json) => {
+		let param = '?'
+		for(let prop in json) {
+			param += prop + "=" + json[prop] + "&"
+		}
+		return param.substring(0,param.length - 1)
+	}
+}
+
+$.ajax({
+    method: "GET",
+    url: "/demo",
+}).then(res => console.log(res)).catch(function (res) {
+    console.log(res)
+});
+
+
+</script>
+</html>

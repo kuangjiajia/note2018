@@ -25,5 +25,8 @@ module.exports = {
         console.log(JSON.stringify(ctx.request.body))
         ctx.response.type = 'text/html'
         ctx.response.body = `${JSON.stringify(ctx.request.body)}`   
+    },
+    demo: async (ctx,next) => {
+        ctx.response.data = "mdzz"
     }
 }

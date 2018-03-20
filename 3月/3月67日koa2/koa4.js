@@ -24,6 +24,7 @@ router.post("/register", async (ctx,next) => {
     ctx.response.body = `${JSON.stringify(ctx.request.body)}`   
 })
 
+
 // router.post('/user/register',async(ctx, next)=>{
 //     let {name, password} = ctx.request.body
 //     if( name === 'ikcamp' && password === '123456' ){
