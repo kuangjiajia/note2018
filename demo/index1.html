@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .content{
+        width: 1200px;
+        height: 1000px;
+        background-color: pink;
+        display: flex;
+        /* flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap; */
+    }
+    .content div{
+        width: 200px;
+        height: 200px;
+        background-color: skyblue;
+        font-size: 50px;
+        text-align: center;
+        line-height: 200px;
+    }
+    .flex1 {
+        order: 1;
+    }
+    .flex3 {
+        order: 3;
+    }
+</style>
+<body>
+    <div class="content">
+        <div class="flex1">1</div>
+        <div class="flex2">2</div>
+        <div class="flex3">3</div>
+        <div class="flex3">4</div>
+        <div class="flex3">5</div>
+        <div class="flex3">6</div>
+        <div class="flex3">7</div>
+    </div>
+</body>
+
+</html>

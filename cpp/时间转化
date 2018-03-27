@@ -1,0 +1,19 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int t,h = 0,m = 0,s = 0;
+    string str = "0";
+    cin >> t;
+    h = t / 3600;
+    m = t % 3600 / 60;
+    s = t % 3600 % 50;
+    if(s < 10) {
+        str += to_string(s);
+        cout << h << ":" << m << ":" << str << endl;
+    }else {
+        cout << h << ":" << m << ":" << s << endl;
+    }
+}
